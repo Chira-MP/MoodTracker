@@ -29,12 +29,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
 
-      - name: Install dependencies (Yarn 4)
+      # ✅ Activăm Corepack și Yarn 4 exact
+      - name: Enable Corepack & use Yarn 4
         run: |
           corepack enable
-          yarn install --immutable --immutable-cache
+          corepack prepare yarn@4.10.3 --activate
+
+      - name: Install dependencies
+        run: yarn install --immutable --immutable-cache
 
       - name: Build project
         run: yarn build
@@ -45,8 +48,3 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

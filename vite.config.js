@@ -3,10 +3,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vite.dev/config/
 export default defineConfig({
-  //  Foarte important pentru GitHub Pages:
-  base: '/MoodTracker/',
+  // Foarte important pentru GitHub Pages:
+  base: '/MoodTracker/',  // înlocuiește cu numele repo-ului tău
 
   plugins: [
     vue(),
