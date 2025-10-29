@@ -6,7 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 // https://vite.dev/config/
 export default defineConfig({
   //  Foarte important pentru GitHub Pages:
-  base: '',
+  base: '/MoodTracker/',
 
   plugins: [
     vue(),

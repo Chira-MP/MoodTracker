@@ -31,12 +31,11 @@ jobs:
           node-version: 20
           cache: 'yarn'
 
-      # ✅ Pas necesar pentru Yarn 4+
-      - name: Enable Corepack
+      - name: Enable Corepack (for Yarn 4)
         run: corepack enable
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: yarn install --immutable --immutable-cache
 
       - name: Build project
         run: yarn build
