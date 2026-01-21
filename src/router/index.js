@@ -27,6 +27,6 @@ const routes = [
 ]
 
 export default createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("/MoodTracker/"),
   routes
 })
