@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from "node:url"
 import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 import vueDevTools from "vite-plugin-vue-devtools"
-import { VitePWA } from "vite-plugin-pwa" // <--- Am adăugat asta
+import { VitePWA } from "vite-plugin-pwa"
 
 export default defineConfig({
   base: "/MoodTracker/",
@@ -10,11 +10,10 @@ export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
-    // Configurarea PWA de mai jos:
     VitePWA({
       registerType: "autoUpdate",
       devOptions: {
-        enabled: true // Permite testarea PWA și în timpul dezvoltării
+        enabled: true
       },
       manifest: {
         name: "MoodTracker App",
@@ -23,7 +22,7 @@ export default defineConfig({
         theme_color: "#42b883",
         icons: [
           {
-            src: "favicon.ico", // Folosim favicon-ul tău momentan ca să nu dea eroare
+            src: "favicon.ico",
             sizes: "64x64 32x32 24x24 16x16",
             type: "image/x-icon"
           }

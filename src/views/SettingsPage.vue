@@ -1,12 +1,9 @@
 <script setup>
-import { computed, watch } from "vue" // Importăm uneltele necesare
+import { computed, watch } from "vue"
 import { useSettingsStore } from "@/stores/settings"
 
 const settingsStore = useSettingsStore()
 
-// --- WATCH (Cerința 2p) ---
-
-// Watch 1: Monitorizăm schimbarea temei și salvăm o notă în consolă
 watch(
   () => settingsStore.darkMode,
   (isDark) => {
@@ -14,9 +11,6 @@ watch(
   }
 )
 
-// --- COMPUTED (Cerința 2p) ---
-
-// Computed: Verificăm dacă fontul selectat este cel mare (peste 20px)
 const fontSizeStatus = computed(() => {
   return settingsStore.fontSize > 20 ? "Font Mare (Accesibilitate activă)" : "Font Normal"
 })

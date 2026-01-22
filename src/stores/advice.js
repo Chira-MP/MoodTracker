@@ -17,22 +17,18 @@ export const useAdviceStore = defineStore("advice", {
   }),
 
   getters: {
-    // Getter 9: Numărul de citate favorite
     favoriteCount: (state) => state.favoriteQuotes.length,
 
-    // Getter 10: Filtrează citatele după categoria 'Relaxare'
     relaxationQuotes: (state) => state.quotes.filter((q) => q.category === "Relaxare")
   },
 
   actions: {
-    // Action 9: Adaugă un citat la favorite
     addToFavorites(quote) {
       if (!this.favoriteQuotes.find((q) => q.id === quote.id)) {
         this.favoriteQuotes.push(quote)
       }
     },
 
-    // Action 10: Ascunde/Afișează sfatul zilei
     toggleAdviceVisibility() {
       this.dailyAdviceVisible = !this.dailyAdviceVisible
     }

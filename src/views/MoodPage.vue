@@ -1,26 +1,21 @@
 <script setup>
-import { computed, watch, ref } from "vue" // Ambele importate aici
+import { computed, watch, ref } from "vue"
 import { useMoodStore } from "@/stores/moods"
 
 const moodStore = useMoodStore()
 const noteText = ref("")
 
-// --- SECȚIUNEA COMPUTED (Cerința 2p) ---
-
-// Computed 3: Filtrează doar intrările de azi
 const todaysEntries = computed(() => {
   const today = new Date().toLocaleDateString()
   return moodStore.moodEntries.filter((entry) => entry.date === today)
 })
 
-// Computed 4: Calculează indicele de fericire
 const happinessIndex = computed(() => {
   if (moodStore.totalEntries === 0) return 0
   const happyCount = moodStore.happyMoodsOnly.length
   return Math.round((happyCount / moodStore.totalEntries) * 100)
 })
 
-// Computed 5: Mesaj dinamic de motivare
 const motivationMessage = computed(() => {
   if (moodStore.moodEntries.length === 0) return "Începe prin a adăuga prima stare de azi!"
   const lastMood = moodStore.moodEntries[0].type
@@ -29,9 +24,6 @@ const motivationMessage = computed(() => {
     : "Continuă tot așa!"
 })
 
-// --- SECȚIUNEA WATCH (Cerința 2p) ---
-
-// Watch 2: Alertă pentru stări negative
 watch(
   () => moodStore.moodEntries.length,
   (newCount, oldCount) => {
@@ -45,7 +37,6 @@ watch(
   }
 )
 
-// Watch 3: Mesaj de felicitare la fiecare 5 înregistrări
 watch(
   () => moodStore.totalEntries,
   (count) => {

@@ -3,29 +3,63 @@ import { defineStore } from "pinia"
 export const useExercisesStore = defineStore("exercises", {
   state: () => ({
     exercises: [
-      { id: 1, name: "Respirație 4-7-8", duration: 120, difficulty: "Ușor" },
-      { id: 2, name: "Respirație Cutie (Box)", duration: 180, difficulty: "Mediu" },
-      { id: 3, name: "Relaxare Musculară", duration: 300, difficulty: "Avansat" }
+      {
+        id: 1,
+        name: "Respirație 4-7-8",
+        duration: 120,
+        difficulty: "Ușor",
+        secondsIn: 4,
+        secondsHold: 7,
+        secondsOut: 8
+      },
+      {
+        id: 2,
+        name: "Respirație Cutie (Box)",
+        duration: 180,
+        difficulty: "Mediu",
+        secondsIn: 4,
+        secondsHold: 4,
+        secondsOut: 4
+      },
+      {
+        id: 3,
+        name: "Relaxare Musculară",
+        duration: 300,
+        difficulty: "Avansat",
+        secondsIn: 5,
+        secondsHold: 2,
+        secondsOut: 5
+      }
     ],
-    completedHistory: []
+    completedHistory: [],
+    selectedId: null,
+    isRunning: false
   }),
 
   getters: {
-    // Getter 6: Numărul total de exerciții disponibile
     availableCount: (state) => state.exercises.length,
-
-    // Getter 7: Total minute de relaxare (calculat din istoric)
     totalRelaxationMinutes: (state) => {
       const seconds = state.completedHistory.reduce((acc, curr) => acc + curr.duration, 0)
       return Math.round(seconds / 60)
     },
+    recentHistory: (state) => state.completedHistory.slice(0, 3),
 
-    // Getter 8: Ultimele 3 exerciții făcute
-    recentHistory: (state) => state.completedHistory.slice(0, 3)
+    selectedExercise: (state) => state.exercises.find((e) => e.id === state.selectedId)
   },
 
   actions: {
-    // Action 7: Salvează un exercițiu terminat
+    selectExercise(id) {
+      this.selectedId = id
+    },
+    start() {
+      this.isRunning = true
+    },
+    stop() {
+      this.isRunning = false
+
+      if (this.selectedId) this.completeExercise(this.selectedId)
+    },
+
     completeExercise(exerciseId) {
       const exercise = this.exercises.find((e) => e.id === exerciseId)
       if (exercise) {
@@ -35,8 +69,6 @@ export const useExercisesStore = defineStore("exercises", {
         })
       }
     },
-
-    // Action 8: Șterge istoricul de exerciții
 
     resetExerciseProgress() {
       // eslint-disable-next-line no-alert

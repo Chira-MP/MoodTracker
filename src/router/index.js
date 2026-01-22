@@ -11,6 +11,7 @@ import AdvicePage from "@/views/AdvicePage.vue"
 import SettingsPage from "@/views/SettingsPage.vue"
 import ProfilePage from "@/views/ProfilePage.vue"
 import AboutPage from "@/views/AboutPage.vue"
+import StatsPage from "../views/StatsPage.vue"
 
 const routes = [
   { path: "/", component: HomePage },
@@ -23,7 +24,8 @@ const routes = [
   { path: "/advice", component: AdvicePage },
   { path: "/profile", component: ProfilePage },
   { path: "/settings", component: SettingsPage },
-  { path: "/about", component: AboutPage }
+  { path: "/about", component: AboutPage },
+  { path: "/stats", component: StatsPage }
 ]
 
 export default createRouter({

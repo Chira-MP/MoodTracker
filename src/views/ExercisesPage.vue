@@ -6,77 +6,79 @@ const store = useExercisesStore()
 const newName = ref("")
 
 function add() {
-  store.addExercise(newName.value)
-  newName.value = ""
+  if (newName.value.trim()) {
+    store.addExercise(newName.value)
+    newName.value = ""
+  }
 }
 
 watch(
   () => store.selectedId,
-  (newVal, oldVal) => {
-    console.log("Exercițiu schimbat:", oldVal, "->", newVal)
+  (newVal) => {
+    console.log("Ai selectat exercițiul cu ID:", newVal)
   }
 )
 </script>
 
 <template>
-  <div class="p-6 max-w-md mx-auto">
-    <h2 class="text-2xl font-bold mb-4 text-center">Exerciții de respirație</h2>
-
-    <div class="bg-white p-4 rounded shadow text-left">
-      <p class="text-sm text-gray-600 mb-2">Total: {{ store.totalExercises }}</p>
-
-      <div class="flex gap-2 mb-3">
-        <input
-          v-model="newName"
-          placeholder="Adaugă un exercițiu (nume)"
-          class="border p-2 rounded w-full"
-        />
-        <button @click="add" class="bg-blue-500 text-white px-3 rounded hover:bg-blue-600">
-          +
-        </button>
-      </div>
-
-      <div class="space-y-2">
-        <button
-          v-for="e in store.exercises"
-          :key="e.id"
-          @click="store.selectExercise(e.id)"
-          class="w-full text-left border rounded p-2 hover:bg-gray-50"
-          :class="store.selectedId === e.id ? 'border-blue-500' : ''"
-        >
-          {{ e.name }}
-        </button>
-      </div>
-
-      <div v-if="store.selectedExercise" class="mt-4 border-t pt-3">
-        <h3 class="font-semibold">{{ store.selectedExercise.name }}</h3>
-        <p class="text-sm text-gray-700">
-          In: {{ store.selectedExercise.secondsIn }}s, Hold:
-          {{ store.selectedExercise.secondsHold }}s, Out: {{ store.selectedExercise.secondsOut }}s
-        </p>
-
-        <div class="mt-3 flex gap-2">
-          <button
-            v-if="!store.isRunning"
-            @click="store.start()"
-            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-          >
-            Start
-          </button>
-
-          <button
-            v-else
-            @click="store.stop()"
-            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-          >
-            Stop
-          </button>
-        </div>
-      </div>
+  <div class="space-y-6">
+    <div class="text-center py-2">
+      <h2 class="text-2xl font-extrabold text-emerald-800">Exerciții</h2>
+      <p class="text-lime-700 font-medium italic">Total: {{ store.totalExercises }}</p>
     </div>
 
-    <button @click="$router.back()" class="mt-4 text-blue-600 underline text-sm block mx-auto">
-      ← Înapoi
-    </button>
+    <div class="grid gap-3">
+      <button
+        v-for="e in store.exercises"
+        :key="e.id"
+        @click="store.selectExercise(e.id)"
+        class="w-full text-left p-4 rounded-2xl border-2 transition-all flex justify-between items-center"
+        :class="
+          store.selectedId === e.id
+            ? 'bg-emerald-100 border-emerald-400 shadow-md'
+            : 'bg-white border-lime-100 shadow-sm'
+        "
+      >
+        <span class="font-bold text-slate-700">{{ e.name }}</span>
+        <span v-if="store.selectedId === e.id" class="text-emerald-600 font-black">SELECTAT</span>
+      </button>
+    </div>
+
+    <div
+      v-if="store.selectedExercise"
+      class="bg-gradient-to-br from-emerald-500 to-lime-400 rounded-[2rem] p-8 text-white shadow-xl text-center"
+    >
+      <h3 class="text-xl font-black mb-4">{{ store.selectedExercise.name }}</h3>
+
+      <div class="grid grid-cols-3 gap-2 mb-8 text-[10px] font-bold uppercase tracking-tighter">
+        <div class="bg-white/10 p-2 rounded-lg">In: {{ store.selectedExercise.secondsIn }}s</div>
+        <div class="bg-white/10 p-2 rounded-lg">
+          Hold: {{ store.selectedExercise.secondsHold }}s
+        </div>
+        <div class="bg-white/10 p-2 rounded-lg">Out: {{ store.selectedExercise.secondsOut }}s</div>
+      </div>
+
+      <div class="flex justify-center">
+        <button
+          v-if="!store.isRunning"
+          @click="store.start()"
+          class="bg-white text-emerald-600 px-12 py-3 rounded-2xl font-black shadow-lg hover:scale-105 active:scale-95 transition"
+        >
+          PORNEȘTE
+        </button>
+
+        <button
+          v-else
+          @click="store.stop()"
+          class="bg-red-500 text-white px-12 py-3 rounded-2xl font-black shadow-lg animate-pulse"
+        >
+          OPREȘTE
+        </button>
+      </div>
+
+      <p v-if="store.isRunning" class="mt-4 text-xs font-bold animate-bounce text-lime-100">
+        Exercițiul rulează...
+      </p>
+    </div>
   </div>
 </template>
